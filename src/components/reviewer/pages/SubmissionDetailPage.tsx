@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { PageHeader } from '../../admin/common/PageHeader';
 import { EmptyState } from '../../admin/common/EmptyState';
-import { BackendNotice } from '../../admin/common/BackendNotice';
 
 type DetailTab = 'submitted-data' | 'validation-checks' | 'evidence' | 'comments' | 'decision';
 

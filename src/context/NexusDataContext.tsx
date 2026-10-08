@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, type ReactNode } from 'react';
 import type {
   ValidationCheckItem,
   AnomalyInfo,
@@ -18,6 +18,8 @@ export interface OrganizationNode {
   name: string;
   type: 'Group' | 'Subsidiary' | 'BusinessUnit' | 'Project' | 'Department';
   parentId: string | null;
+  sector?: string;
+  location?: string;
 }
 
 export interface User {
@@ -26,6 +28,8 @@ export interface User {
   role: 'admin' | 'reviewer' | 'contributor' | 'management' | 'auditor';
   email: string;
   orgId: string;
+  orgScopeId?: string;
+  department?: string;
 }
 
 export interface Assignment {

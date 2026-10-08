@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Building2,
   ChevronRight,
   Layers,
-  MapPin,
-  FileCheck,
   Search,
 } from 'lucide-react';
 import { EmptyState } from '../../admin/common/EmptyState';

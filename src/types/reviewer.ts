@@ -163,3 +163,19 @@ export interface ReviewerNotification {
   priority: 'high' | 'medium' | 'low';
 }
 
+export interface ReviewDecision {
+  submissionId: string;
+  decision: 'approve' | 'request_correction' | 'reject';
+  comment?: string;
+  reason?: string;
+  affectedField?: string;
+  correctionCategory?: string;
+}
+
+export type SubmissionReviewDetail = Record<string, unknown>;
+export type ValidationIssue = ValidationCheckItem;
+export type EvidenceDocument = EvidenceDocumentItem;
+export type ReviewComment = ReviewCommentItem;
+export type ReviewActivityLog = ReviewAuditEntry;
+
+

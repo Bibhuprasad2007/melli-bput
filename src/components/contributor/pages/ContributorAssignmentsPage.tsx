@@ -3,7 +3,6 @@ import { ClipboardList, Filter, RotateCcw, Search, ChevronLeft, ChevronRight } f
 import { Link } from 'react-router-dom';
 import { useNexusData } from '../../../context/NexusDataContext';
 import { PageHeader } from '../../admin/common/PageHeader';
-import { DataTableShell } from '../../admin/common/DataTableShell';
 
 const ASSIGNMENT_STATUS_OPTIONS = [
   { label: 'Not Started', value: 'not_started' },

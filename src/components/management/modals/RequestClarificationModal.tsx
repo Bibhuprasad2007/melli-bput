@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, AlertCircle, Send } from 'lucide-react';
+import { AlertCircle, Send } from 'lucide-react';
 import { Modal } from '../../ui/Modal';
 
 interface RequestClarificationModalProps {

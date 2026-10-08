@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import {
-  BarChart3,
-  Layers,
   Leaf,
   Users,
   ShieldCheck,
-  TrendingUp,
   Target,
-  FileCheck2,
   GitCompare,
   RotateCcw,
   Search,

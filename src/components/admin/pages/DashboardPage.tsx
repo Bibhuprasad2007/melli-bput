@@ -43,10 +43,10 @@ export const DashboardPage: React.FC = () => {
   const { users, organizations, assignments } = useNexusData();
 
   const totalUsers = users.length;
-  const totalProjects = organizations.filter(o => o.type === 'project' || o.type === 'plant').length;
+  const totalProjects = organizations.filter(o => o.type === 'Project').length;
   
   const totalAssignments = assignments.length || 1;
-  const pendingSubmissions = assignments.filter(a => a.status === 'not_started' || a.status === 'in_progress').length;
+  const pendingSubmissions = assignments.filter(a => a.status === 'draft').length;
   const awaitingReview = assignments.filter(a => a.status === 'under_review').length;
   const approved = assignments.filter(a => a.status === 'approved').length;
   const brsrCompletion = Math.round((approved / totalAssignments) * 100);

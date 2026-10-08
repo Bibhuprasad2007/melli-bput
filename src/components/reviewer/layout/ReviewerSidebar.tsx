@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { Logo } from '../../ui/Logo';
 import { useDemoAuth } from '../../../context/DemoAuthContext';
+import { useNexusData } from '../../../context/NexusDataContext';
 import { REVIEWER_NAV_ITEMS } from '../../../constants/reviewerNav';
 
 interface ReviewerSidebarProps {
@@ -25,6 +26,7 @@ export const ReviewerSidebar: React.FC<ReviewerSidebarProps> = ({
   onCloseMobile,
 }) => {
   const { logout, session } = useDemoAuth();
+  const { assignments, submissions, notifications } = useNexusData();
   const navigate = useNavigate();
 
   const handleLogout = () => {

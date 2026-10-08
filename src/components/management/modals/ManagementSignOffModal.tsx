@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileCheck2, AlertCircle, ShieldCheck } from 'lucide-react';
+import { FileCheck2, AlertCircle } from 'lucide-react';
 import { Modal } from '../../ui/Modal';
 
 interface ManagementSignOffModalProps {

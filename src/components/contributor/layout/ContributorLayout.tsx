@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { ContributorSidebar } from './ContributorSidebar';
 import { ContributorTopBar } from './ContributorTopBar';
 import { ContributorDemoModeBanner } from './ContributorDemoModeBanner';
+import { ContributorDataProvider } from '../context/ContributorDataContext';
 import { ToastContainer } from '../../ui/Toast';
 import type { ToastMessage } from '../../../types/auth';
 
@@ -28,9 +29,10 @@ export const ContributorLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col antialiased selection:bg-teal-100 selection:text-teal-900">
-      {/* Top Demo Banner */}
-      <ContributorDemoModeBanner />
+    <ContributorDataProvider>
+      <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col antialiased selection:bg-teal-100 selection:text-teal-900">
+        {/* Top Demo Banner */}
+        <ContributorDemoModeBanner />
 
       <div className="flex-1 flex relative">
         {/* Left Sidebar (Collapsible Desktop & Mobile Drawer) */}
@@ -64,5 +66,6 @@ export const ContributorLayout: React.FC = () => {
       {/* Global Contributor Toast Notifications */}
       <ToastContainer toasts={toasts} onDismiss={removeToast} />
     </div>
+  </ContributorDataProvider>
   );
 };
