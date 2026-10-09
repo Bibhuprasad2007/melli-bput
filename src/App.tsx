@@ -32,10 +32,12 @@ import { ReviewerSettingsPage } from './components/reviewer/pages/ReviewerSettin
 import { ProtectedContributorRoute } from './components/contributor/layout/ProtectedContributorRoute';
 import { ContributorLayout } from './components/contributor/layout/ContributorLayout';
 import { ContributorDashboard } from './components/contributor/pages/ContributorDashboard';
+import { AssignmentPage } from './components/contributor/pages/AssignmentPage';
+
 import { ContributorAssignmentsPage } from './components/contributor/pages/ContributorAssignmentsPage';
 import { AssignmentDataEntryPage } from './components/contributor/pages/AssignmentDataEntryPage';
-import { BulkDataUploadPage } from './components/contributor/pages/BulkDataUploadPage';
-import { ContributorEvidencePage } from './components/contributor/pages/ContributorEvidencePage';
+
+
 import { ContributorCorrectionsPage } from './components/contributor/pages/ContributorCorrectionsPage';
 import { ContributorSubmissionsPage } from './components/contributor/pages/ContributorSubmissionsPage';
 import { ContributorActivityPage } from './components/contributor/pages/ContributorActivityPage';
@@ -121,9 +123,11 @@ export function App() {
           >
             <Route path="dashboard" element={<ContributorDashboard />} />
             <Route path="assignments" element={<ContributorAssignmentsPage />} />
+            <Route path="assignment" element={<AssignmentPage />} />
             <Route path="assignments/:assignmentId" element={<AssignmentDataEntryPage />} />
-            <Route path="bulk-upload" element={<BulkDataUploadPage />} />
-            <Route path="evidence" element={<ContributorEvidencePage />} />
+
+            
+            
             <Route path="corrections" element={<ContributorCorrectionsPage />} />
             <Route path="submissions" element={<ContributorSubmissionsPage />} />
             <Route path="activity" element={<ContributorActivityPage />} />

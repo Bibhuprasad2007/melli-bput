@@ -6,8 +6,6 @@ const ROUTE_LABELS: Record<string, string> = {
   contributor: 'Contributor Portal',
   dashboard: 'Dashboard',
   assignments: 'My Assignments',
-  'bulk-upload': 'Bulk Data Upload',
-  evidence: 'Evidence',
   corrections: 'Corrections',
   submissions: 'My Submissions',
   activity: 'My Activity',

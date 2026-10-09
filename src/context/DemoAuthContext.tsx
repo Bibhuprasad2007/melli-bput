@@ -27,19 +27,23 @@ interface DemoAuthContextType {
   isReviewerAuthenticated: boolean;
   isContributorAuthenticated: boolean;
   isManagementAuthenticated: boolean;
-  userRole: 'esg_admin' | 'reviewer' | 'contributor' | 'management' | null;
+  userRole: 'esg_admin' | 'reviewer' | 'contributor' | 'management' | 'auditor' | null;
   isDemoAdminEnabled: boolean;
   isDemoReviewerEnabled: boolean;
   isDemoContributorEnabled: boolean;
   isDemoManagementEnabled: boolean;
+  isDemoAuditorEnabled: boolean; // added auditor flag
   loginDemoAdmin: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   loginDemoReviewer: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   loginDemoContributor: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   loginDemoManagement: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  loginDemoAuditor: (email: string, password: string) => Promise<{ success: boolean; error?: string }>; // added auditor login
+
   fillDemoAdminCredentials: () => { email: string; password: string } | null;
   fillDemoReviewerCredentials: () => { email: string; password: string } | null;
   fillDemoContributorCredentials: () => { email: string; password: string } | null;
   fillDemoManagementCredentials: () => { email: string; password: string } | null;
+  fillDemoAuditorCredentials: () => { email: string; password: string } | null; // added auditor filler
   logout: () => void;
 }
 
@@ -67,6 +71,11 @@ export const DemoAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Read environment variables for ESG Admin
   const isDemoAdminEnabled = import.meta.env.VITE_ENABLE_DEMO_AUTH === 'true';
   const configuredAdminEmail = (import.meta.env.VITE_DEMO_ADMIN_EMAIL as string) || '';
+
+  // Auditor demo flags
+  const isDemoAuditorEnabled = import.meta.env.VITE_ENABLE_DEMO_AUDITOR_AUTH === 'true';
+  const configuredAuditorEmail = (import.meta.env.VITE_DEMO_AUDITOR_EMAIL as string) || '';
+  const configuredAuditorPassword = (import.meta.env.VITE_DEMO_AUDITOR_PASSWORD as string) || '';
   const configuredAdminPassword = (import.meta.env.VITE_DEMO_ADMIN_PASSWORD as string) || '';
 
   // Read environment variables for Reviewer
@@ -124,6 +133,16 @@ export const DemoAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
   };
 
+  // Auditor demo credentials filler
+  const fillDemoAuditorCredentials = () => {
+    if (!isDemoAuditorEnabled || !configuredAuditorEmail || !configuredAuditorPassword) {
+      return null;
+    }
+    return {
+      email: configuredAuditorEmail,
+      password: configuredAuditorPassword,
+    };
+  };
   const loginDemoAdmin = async (
     email: string,
     password: string
@@ -296,6 +315,50 @@ export const DemoAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
   };
 
+  // Auditor demo login
+  const loginDemoAuditor = async (
+    email: string,
+    password: string
+  ): Promise<{ success: boolean; error?: string }> => {
+    if (!isDemoAuditorEnabled) {
+      return {
+        success: false,
+        error: 'Auditor demo authentication is disabled. Backend integration will be connected in future phases.',
+      };
+    }
+
+    const trimmedInputEmail = email.trim().toLowerCase();
+    const targetEmail = configuredAuditorEmail.trim().toLowerCase();
+
+    if (trimmedInputEmail === targetEmail && password === configuredAuditorPassword) {
+      const demoSessionData: DemoSession = {
+        authenticated: true,
+        role: 'auditor',
+        mode: 'demo',
+        loginTime: new Date().toISOString(),
+        user: {
+          name: 'Demo Auditor',
+          email: configuredAuditorEmail,
+        },
+      };
+
+      try {
+        sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(demoSessionData));
+        sessionStorage.removeItem(LEGACY_ADMIN_KEY);
+      } catch (e) {
+        console.error('Failed to write session to sessionStorage:', e);
+      }
+
+      setSession(demoSessionData);
+      return { success: true };
+    }
+
+    return {
+      success: false,
+      error: 'Invalid Auditor credentials. Please check the email and password.',
+    };
+  };
+
   const logout = () => {
     try {
       sessionStorage.removeItem(SESSION_STORAGE_KEY);
@@ -320,14 +383,17 @@ export const DemoAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         isDemoReviewerEnabled,
         isDemoContributorEnabled,
         isDemoManagementEnabled,
+        isDemoAuditorEnabled,
         loginDemoAdmin,
         loginDemoReviewer,
         loginDemoContributor,
         loginDemoManagement,
+        loginDemoAuditor,
         fillDemoAdminCredentials,
         fillDemoReviewerCredentials,
         fillDemoContributorCredentials,
         fillDemoManagementCredentials,
+        fillDemoAuditorCredentials,
         logout,
       }}
     >

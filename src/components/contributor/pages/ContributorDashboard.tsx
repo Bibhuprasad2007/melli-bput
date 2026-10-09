@@ -4,7 +4,6 @@ import {
   ClipboardList,
   AlertTriangle,
   Send,
-  UploadCloud,
   FileText,
   ArrowRight,
   ShieldCheck,
@@ -154,14 +153,7 @@ export const ContributorDashboard: React.FC = () => {
               <AlertTriangle className="w-3.5 h-3.5 text-amber-300" />
               <span>Corrections ({corrections.filter((c) => c.status === 'PENDING_CONTRIBUTOR').length})</span>
             </button>
-            <button
-              type="button"
-              onClick={() => navigate('/contributor/bulk-upload')}
-              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-colors"
-            >
-              <UploadCloud className="w-3.5 h-3.5 text-teal-300" />
-              <span>Bulk Ingestion</span>
-            </button>
+            
           </div>
         </div>
       </div>

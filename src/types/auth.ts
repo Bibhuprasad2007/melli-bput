@@ -22,7 +22,7 @@ export interface ToastMessage {
 
 export interface DemoSession {
   authenticated: boolean;
-  role: 'esg_admin' | 'reviewer' | 'contributor' | 'management';
+  role: 'esg_admin' | 'reviewer' | 'contributor' | 'management' | 'auditor';
   mode: 'demo';
   loginTime?: string;
   user?: {

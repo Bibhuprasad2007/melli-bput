@@ -7,10 +7,10 @@ interface ProtectedReviewerRouteProps {
 }
 
 export const ProtectedReviewerRoute: React.FC<ProtectedReviewerRouteProps> = ({ children }) => {
-  const { isReviewerAuthenticated } = useDemoAuth();
+  const { isAuthenticated } = useDemoAuth();
   const location = useLocation();
 
-  if (!isReviewerAuthenticated) {
+  if (!isAuthenticated) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 

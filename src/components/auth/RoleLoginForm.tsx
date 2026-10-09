@@ -29,6 +29,7 @@ export const RoleLoginForm: React.FC<RoleLoginFormProps> = ({
     isDemoReviewerEnabled,
     isDemoContributorEnabled,
     isDemoManagementEnabled,
+    isDemoAuditorEnabled,
     loginDemoAdmin,
     loginDemoReviewer,
     loginDemoContributor,
@@ -37,6 +38,7 @@ export const RoleLoginForm: React.FC<RoleLoginFormProps> = ({
     fillDemoReviewerCredentials,
     fillDemoContributorCredentials,
     fillDemoManagementCredentials,
+    fillDemoAuditorCredentials,
   } = useDemoAuth();
 
   const navigate = useNavigate();
@@ -89,6 +91,15 @@ export const RoleLoginForm: React.FC<RoleLoginFormProps> = ({
 
   const handleUseDemoManagement = () => {
     const creds = fillDemoManagementCredentials();
+    if (creds) {
+      setEmail(creds.email);
+      setPassword(creds.password);
+      setErrors({});
+    }
+  };
+
+  const handleUseDemoAuditor = () => {
+    const creds = fillDemoAuditorCredentials();
     if (creds) {
       setEmail(creds.email);
       setPassword(creds.password);
@@ -328,6 +339,32 @@ export const RoleLoginForm: React.FC<RoleLoginFormProps> = ({
         </div>
       )}
 
+      {/* Demo Access Box for Auditor */}
+      {isDemoAuditorEnabled && (
+        <div className="p-3 rounded-lg bg-purple-50 border border-purple-200 text-purple-950 text-xs">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <UserCheck className="w-4 h-4 text-purple-600 shrink-0" />
+              <div>
+                <span className="font-semibold block text-purple-950">
+                  Demo Auditor Access Enabled
+                </span>
+                <span className="text-[11px] text-purple-700">
+                  Click to auto-populate test Auditor credentials
+                </span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleUseDemoAuditor}
+              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-semibold text-xs rounded-md shadow-xs transition-colors shrink-0"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Use Demo Auditor</span>
+            </button>
+          </div>
+        </div>
+      )}
       {/* General Form Error */}
       {errors.general && (
         <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-2">
