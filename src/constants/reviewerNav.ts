@@ -3,11 +3,7 @@ import {
   LayoutDashboard,
   ClipboardList,
   Clock,
-  RotateCcw,
   FileCheck2,
-  AlertOctagon,
-  Award,
-  GitBranch,
   History,
   Bell,
 } from 'lucide-react';

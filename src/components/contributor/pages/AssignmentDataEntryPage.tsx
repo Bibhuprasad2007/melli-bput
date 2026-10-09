@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useOutletContext, useNavigate, useParams } from 'react-router-dom';
+import { useOutletContext, useNavigate, useParams, Link } from 'react-router-dom';
 import {
   Save,
   Send,
   Building,
   Smartphone,
+  Table2,
 } from 'lucide-react';
 import { useContributorData } from '../context/ContributorDataContext';
 import { useNexusData } from '../../../context/NexusDataContext';
@@ -130,6 +131,14 @@ export const AssignmentDataEntryPage: React.FC = () => {
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span>Completion: <strong className="text-teal-800">{stats.completionPct}%</strong> ({stats.evidencePct}% Ev) &bull; <strong className="text-slate-800">{lastSavedTimestamp}</strong></span>
             </div>
+
+            <Link
+              to="/contributor/assignment"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 border border-teal-200 rounded-lg transition-colors cursor-pointer"
+            >
+              <Table2 className="w-3.5 h-3.5 text-teal-700" />
+              <span>Master 9-Principles Table</span>
+            </Link>
 
             <button
               type="button"

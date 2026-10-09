@@ -101,8 +101,8 @@ export const AdminRegistrationForm: React.FC<AdminRegistrationFormProps> = ({
 
     setTimeout(() => {
       setIsLoading(false);
-      onSubmitSuccess('Authentication service will be connected in the next phase.');
-    }, 1400);
+      onSubmitSuccess('Admin registration submitted for verification. You can sign in using the demo admin credentials.');
+    }, 800);
   };
 
   const updateField = (field: string, value: string | boolean) => {
@@ -112,8 +112,73 @@ export const AdminRegistrationForm: React.FC<AdminRegistrationFormProps> = ({
     }
   };
 
+  const [isDemoFillActive, setIsDemoFillActive] = useState(false);
+
+  const handleToggleDemoFill = () => {
+    if (isDemoFillActive) {
+      setIsDemoFillActive(false);
+      setFormData({
+        fullName: '',
+        email: '',
+        employeeId: '',
+        mobile: '',
+        orgCode: '',
+        password: '',
+        confirmPassword: '',
+        authorizedConfirmed: false,
+      });
+      setErrors({});
+      return;
+    }
+
+    setIsDemoFillActive(true);
+    setFormData({
+      fullName: 'Vikramaditya Sharma',
+      email: 'vikram.admin@meil.in',
+      employeeId: 'MEIL-ADM-9021',
+      mobile: '+91 98490 12345',
+      orgCode: 'MEIL-CORP-2026',
+      password: 'Admin@Secure2026',
+      confirmPassword: 'Admin@Secure2026',
+      authorizedConfirmed: true,
+    });
+    setErrors({});
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-3.5 text-slate-800" noValidate>
+      {/* 1-Click Demo Fill Switch */}
+      <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-50 via-teal-50/70 to-slate-50 border border-emerald-300/80 shadow-xs flex items-center justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-slate-900">Quick Demo Registration Switch</span>
+            <span className="px-1.5 py-0.5 text-[9px] font-extrabold uppercase rounded bg-emerald-200 text-emerald-900 border border-emerald-300">
+              Auto-Fill
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-600 mt-0.5">
+            Flip switch to pre-fill verified corporate admin details
+          </p>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={isDemoFillActive}
+          onClick={handleToggleDemoFill}
+          className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-500 ${
+            isDemoFillActive ? 'bg-emerald-600' : 'bg-slate-300 hover:bg-slate-400'
+          }`}
+        >
+          <span className="sr-only">Toggle demo registration auto-fill</span>
+          <span
+            aria-hidden="true"
+            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
+              isDemoFillActive ? 'translate-x-5' : 'translate-x-0'
+            }`}
+          />
+        </button>
+      </div>
+
       {/* Verification Notice */}
       <div className="flex items-start gap-2.5 p-3 rounded-lg bg-amber-50/90 border border-amber-200 text-amber-900 text-xs leading-relaxed">
         <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />

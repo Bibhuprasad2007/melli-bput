@@ -17,6 +17,14 @@ import { EvidenceAuditPage } from './components/admin/pages/EvidenceAuditPage';
 import { SettingsPage } from './components/admin/pages/SettingsPage';
 
 
+import { BRSRControlCenterPage } from './components/admin/pages/BRSRControlCenterPage';
+import { BRSRCorePage } from './components/admin/pages/BRSRCorePage';
+import { ConsolidationPage } from './components/admin/pages/ConsolidationPage';
+import { AssessmentPage } from './components/admin/pages/AssessmentPage';
+import { ReportsPage } from './components/admin/pages/ReportsPage';
+import { NotificationsPage } from './components/admin/pages/NotificationsPage';
+import { AuditLogsPage } from './components/admin/pages/AuditLogsPage';
+
 // Reviewer Pages & Layout
 import { ProtectedReviewerRoute } from './components/reviewer/layout/ProtectedReviewerRoute';
 import { ReviewerLayout } from './components/reviewer/layout/ReviewerLayout';
@@ -78,13 +86,13 @@ export function App() {
             <Route path="data-collection" element={<TaskAssignmentPage />} />
             <Route path="validation-rules" element={<ValidationPage />} />
             <Route path="evidence-configuration" element={<EvidenceAuditPage />} />
-            <Route path="brsr-control-center" element={<PlaceholderPage title="BRSR Control Center" />} />
-            <Route path="brsr-core" element={<PlaceholderPage title="BRSR Core" />} />
-            <Route path="consolidation" element={<PlaceholderPage title="Consolidation" />} />
-            <Route path="assessment" element={<PlaceholderPage title="Assessment" />} />
-            <Route path="reports" element={<PlaceholderPage title="Reports" />} />
-            <Route path="notifications" element={<PlaceholderPage title="Notifications" />} />
-            <Route path="audit-logs" element={<PlaceholderPage title="Audit Logs" />} />
+            <Route path="brsr-control-center" element={<BRSRControlCenterPage />} />
+            <Route path="brsr-core" element={<BRSRCorePage />} />
+            <Route path="consolidation" element={<ConsolidationPage />} />
+            <Route path="assessment" element={<AssessmentPage />} />
+            <Route path="reports" element={<ReportsPage />} />
+            <Route path="notifications" element={<NotificationsPage />} />
+            <Route path="audit-logs" element={<AuditLogsPage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>
 

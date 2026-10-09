@@ -386,7 +386,7 @@ const INITIAL_AUDIT_LOGS: ContributorAuditLogEntry[] = [
 ];
 
 export const ContributorDataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { submitData, uploadEvidence } = useNexusData();
+  const { submitData, uploadEvidence, submitMonthlyDossier, resubmitRowCorrection } = useNexusData();
   const [activeScope, setActiveScope] = useState<ContributorProjectScope>(AVAILABLE_PROJECTS[0]);
   const [lastSavedTimestamp, setLastSavedTimestamp] = useState<string>('Just now');
   const [corrections, setCorrections] = useState<CorrectionItem[]>(INITIAL_CORRECTIONS);
@@ -588,6 +588,7 @@ export const ContributorDataProvider: React.FC<{ children: ReactNode }> = ({ chi
   };
 
   const respondToCorrection = (correctionId: string, newRemarks: string) => {
+    const targetCorr = corrections.find(c => c.id === correctionId);
     setCorrections(prev =>
       prev.map(c =>
         c.id === correctionId
@@ -595,6 +596,19 @@ export const ContributorDataProvider: React.FC<{ children: ReactNode }> = ({ chi
           : c
       )
     );
+
+    // If linked to a field entry, pass through to NexusDataContext resubmitRowCorrection
+    if (targetCorr) {
+      const entry = fieldEntries[targetCorr.fieldId];
+      const val = entry?.value || '';
+      // Find dossier or match
+      resubmitRowCorrection(
+        `dossier_${activeScope.projectId}_${activeScope.site}_${activeScope.year}_M03`,
+        targetCorr.fieldId,
+        val,
+        newRemarks
+      );
+    }
   };
 
   const submitProjectForReview = (): {
@@ -639,6 +653,59 @@ export const ContributorDataProvider: React.FC<{ children: ReactNode }> = ({ chi
         warnings,
       };
     }
+
+    // Build detailed ESGReportingDossier for review queue
+    const dossierRows: Record<string, any> = {};
+    for (const p of PRINCIPLES_CONFIG) {
+      for (const sub of p.subsections) {
+        for (const f of sub.fields) {
+          const entry = fieldEntries[f.id];
+          const val = entry?.value !== undefined && entry?.value !== '' ? entry.value : (f.defaultValue ?? '');
+          dossierRows[f.id] = {
+            id: f.code || f.id,
+            name: f.label,
+            principleId: parseInt(p.id.replace('p', '')) || 1,
+            principleTitle: p.title,
+            category: f.category,
+            description: f.description,
+            unit: f.unit,
+            valueType: f.type,
+            required: f.required,
+            isBrsrCore: f.isBrsrCore,
+            previousMonthValue: f.previousYearValue || '--',
+            currentValue: val,
+            remarks: entry?.remarks || '',
+            evidenceFiles: (entry?.evidence || []).map(e => ({
+              id: e.id,
+              name: e.documentName,
+              type: e.fileFormat,
+              size: e.fileSizeBytes,
+              uploadedAt: e.uploadedOn,
+              url: e.id,
+            })),
+            reviewStatus: 'SUBMITTED',
+            version: 1,
+            lastUpdated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          };
+        }
+      }
+    }
+
+    submitMonthlyDossier({
+      contextKey: `meil_esg_ctx_${activeScope.projectId}_${activeScope.site}_${activeScope.year}_M03`,
+      projectId: activeScope.projectId,
+      projectName: activeScope.projectName,
+      projectCode: activeScope.projectCode,
+      siteId: activeScope.site,
+      siteName: activeScope.siteName,
+      financialYear: activeScope.year,
+      month: 3,
+      monthName: 'March',
+      submittingUser: 'Suresh Kumar (Site Contributor)',
+      submittedAt: new Date().toISOString(),
+      totalRows: Object.keys(dossierRows).length,
+      rows: dossierRows,
+    });
 
     // Submit project records into NexusDataContext
     submitData({

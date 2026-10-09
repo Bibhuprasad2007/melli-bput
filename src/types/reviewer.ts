@@ -13,7 +13,13 @@ export type ReviewStatus =
 
 export type ValidationSeverity = 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL';
 
-export type EvidenceStatus = 'UPLOADED' | 'UNDER_REVIEW' | 'ACCEPTED' | 'REJECTED' | 'SUPERSEDED';
+export type EvidenceStatus =
+  | 'UPLOADED'
+  | 'UNDER_REVIEW'
+  | 'ACCEPTED'
+  | 'REJECTED'
+  | 'SUPERSEDED'
+  | 'REPLACEMENT_REQUESTED';
 
 export interface ValidationCheckItem {
   id: string;
@@ -37,12 +43,14 @@ export interface AnomalyInfo {
 }
 
 export interface CalculationStep {
+  stepNumber?: number;
   label: string;
   formula: string;
-  inputValue: string | number;
-  factorUsed: string | number;
-  outputValue: string | number;
-  unit: string;
+  inputValue?: string | number;
+  factorUsed?: string | number;
+  outputValue?: string | number;
+  value?: string | number;
+  unit?: string;
 }
 
 export interface EvidenceDocumentItem {
@@ -156,11 +164,13 @@ export interface ReviewerNotification {
   id: string;
   title: string;
   message: string;
-  type: 'submission' | 'resubmission' | 'deadline' | 'validation' | 'anomaly';
+  type: 'submission' | 'resubmission' | 'deadline' | 'validation' | 'anomaly' | string;
   timestamp: string;
   isRead: boolean;
   assignmentId?: string;
-  priority: 'high' | 'medium' | 'low';
+  priority?: 'high' | 'medium' | 'low';
+  severity?: 'critical' | 'warning' | 'info';
+  createdAt?: string;
 }
 
 export interface ReviewDecision {

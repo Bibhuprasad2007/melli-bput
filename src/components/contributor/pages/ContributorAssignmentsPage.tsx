@@ -73,6 +73,32 @@ export const ContributorAssignmentsPage: React.FC = () => {
         description="All ESG and BRSR disclosure metrics assigned to you by the ESG Administrator. Open an assignment to enter operational data and attach verification evidence."
       />
 
+      {/* Master ESG Principles Data Capture Workflow Launch Card */}
+      <div className="bg-gradient-to-r from-[#003B73] via-teal-800 to-teal-900 text-white p-5 rounded-2xl shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-400 text-slate-950 uppercase tracking-wider">
+              Statutory Reporting Workflow
+            </span>
+            <span className="text-xs text-teal-200">SEBI BRSR Core Principles 1 to 9</span>
+          </div>
+          <h2 className="text-lg font-bold tracking-tight">
+            ESG Principles Data Capture &amp; Automated Review Workflow
+          </h2>
+          <p className="text-xs text-slate-200 max-w-2xl leading-relaxed">
+            Select project, site, and reporting month context to enter operational data across all 9 statutory principles, compare month-over-month variances, attach evidence documents, and submit for assurance.
+          </p>
+        </div>
+
+        <Link
+          to="/contributor/assignment"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs bg-white text-teal-950 hover:bg-teal-50 transition-all shadow-sm shrink-0 active:scale-95"
+        >
+          <ClipboardList className="w-4 h-4 text-teal-800" />
+          <span>Launch Master ESG Data Capture</span>
+        </Link>
+      </div>
+
       {/* Comprehensive Filter Panel */}
       <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-xs space-y-4">
         {/* Primary Search & Quick Filter Bar */}
@@ -346,8 +372,20 @@ export const ContributorAssignmentsPage: React.FC = () => {
                         {assignment.status.replace('_', ' ').toUpperCase()}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <Link to={`/contributor/assignments/${assignment.id}`} className="text-teal-600 hover:text-teal-900 font-medium">Open Task</Link>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs space-x-3">
+                      <Link
+                        to={`/contributor/assignments/${assignment.id}`}
+                        className="text-teal-700 hover:text-teal-900 font-bold hover:underline"
+                      >
+                        Open Task
+                      </Link>
+                      <Link
+                        to="/contributor/assignment"
+                        className="text-slate-500 hover:text-slate-800 font-medium hover:underline"
+                        title="Open in full 9-principles data capture table"
+                      >
+                        All Principles
+                      </Link>
                     </td>
                   </tr>
                 );

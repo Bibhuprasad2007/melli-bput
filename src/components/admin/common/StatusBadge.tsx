@@ -13,18 +13,49 @@ export type StatusVariant =
   | 'neutral';
 
 interface StatusBadgeProps {
-  label: string;
+  label?: string;
+  status?: string;
   variant?: StatusVariant;
   size?: 'sm' | 'md';
 }
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({
   label,
-  variant = 'neutral',
+  status,
+  variant,
   size = 'sm',
 }) => {
+  const displayLabel = label || (status ? status.replace(/_/g, ' ') : 'neutral');
+
+  const resolvedVariant: StatusVariant =
+    variant ||
+    (() => {
+      switch (status) {
+        case 'approved':
+        case 'audited':
+        case 'active':
+          return 'approved';
+        case 'submitted':
+        case 'under_review':
+        case 'pending':
+        case 'management_pending':
+          return 'pending';
+        case 'correction_requested':
+        case 'warning':
+          return 'warning';
+        case 'rejected':
+        case 'error':
+          return 'rejected';
+        case 'locked':
+          return 'locked';
+        case 'draft':
+        default:
+          return 'draft';
+      }
+    })();
+
   const getColors = () => {
-    switch (variant) {
+    switch (resolvedVariant) {
       case 'active':
       case 'approved':
         return 'bg-emerald-50 text-emerald-700 border-emerald-200';
@@ -51,7 +82,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     <span
       className={`inline-flex items-center font-medium border rounded-full capitalize select-none ${getColors()} ${sizeClasses}`}
     >
-      {label}
+      {displayLabel}
     </span>
   );
 };
